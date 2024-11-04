@@ -174,6 +174,7 @@ function repartirCartas(jugador1, jugador2, Maso){
 
     jugador1.baraja= arrayAux;
     jugador2.baraja= arrayAux2;
+    return posiciones;
 }
 
 function posicionDeCartasSinRepetir(maso){
@@ -262,19 +263,25 @@ function mentiroso1(){
     }
 }
 
-function mostrarCartasEnMesa(jugador1, jugador2){
+function mostrarCartasEnMesa(posiciones){
 
-    let cont = 0;
     const cartas = document.querySelectorAll(".carta");
-    console.log(cartas.length);
+    let cont = 1;
+    flag = true;
+    let imagenSeleccionada;
+
     cartas.forEach(carta =>{
         const img = document.createElement('img');
-        rutaImagen = imagenes[cont];
-        img.src = rutaImagen.src;
-        img.alt = rutaImagen.alt;
-        img.classList.add('carta-individual')
-        cont++;
+        imagenSeleccionada = imagenes[posiciones[cont]]
+        img.src = imagenSeleccionada.src;
+        img.alt = imagenSeleccionada.alt;
         carta.appendChild(img);
+
+        if(cont == 9 && flag == true) {
+            cont = -2;
+            flag = false;
+        }
+        cont+=2;
     })
 }
 
@@ -282,9 +289,10 @@ function mostrarCartasEnMesa(jugador1, jugador2){
 function inicioJuego(){
     let jugador1 = new Jugador("Santiago", 3);
     let jugador2 = new Jugador("BOT", 3);
-    repartirCartas(jugador1, jugador2, Maso);
+    let posicionesCartas = repartirCartas(jugador1, jugador2, Maso);
     jugador1.verCartas();
     jugador2.verCartas();
+    mostrarCartasEnMesa(posicionesCartas);
 
     let ronda =seleccionDeFigura(figuraDeCartas);
     console.log(ronda);
