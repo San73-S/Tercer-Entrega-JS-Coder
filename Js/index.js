@@ -310,5 +310,6 @@ cartas.forEach(carta => {
     carta.addEventListener('click', () => {
         carta.style.display = "none";
         mazoEnMeza.style.display = "block";
+        console.log("holanda")
     });    
-});
+});  
