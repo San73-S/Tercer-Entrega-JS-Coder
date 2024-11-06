@@ -275,6 +275,7 @@ function mostrarCartasEnMesa(posiciones){
         imagenSeleccionada = imagenes[posiciones[cont]]
         img.src = imagenSeleccionada.src;
         img.alt = imagenSeleccionada.alt;
+        img.setAttribute('data-id', posiciones[cont]);
         img.classList.add("carta-individual")
         carta.appendChild(img);
 
@@ -310,6 +311,7 @@ cartas.forEach(carta => {
     carta.addEventListener('click', () => {
         carta.style.display = "none";
         mazoEnMeza.style.display = "block";
-        console.log("holanda")
+        mazoEnMeza.alt = carta.alt;
+        mazoEnMeza.setAttribute('data-id', carta.dataset.id);
     });    
 });  
