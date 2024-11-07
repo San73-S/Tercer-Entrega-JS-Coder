@@ -133,6 +133,8 @@ const imagenes = [
 
 const figuraDeCartas = ["Numerica", "Sota", "Caballo", "Rey", "Comodin"];
 
+let ronda = "";
+
 class Jugador{
 
     constructor(nombre, vidas, baraja){
@@ -204,7 +206,7 @@ function posicionDeCartasSinRepetir(maso){
 
 const seleccionDeFigura = (figuraDeCartas) => figuraDeCartas[Math.floor(Math.random() * (figuraDeCartas.length-1))];
 
-function seleccionDeCartaATirar(jugador, ronda){
+/*function seleccionDeCartaATirar(jugador, ronda){
     let posCarta = 0;
     let cartaSeleccionada;
         do{
@@ -261,7 +263,7 @@ function mentiroso1(){
         if(mentiroso == null && esMentira()) mentiroso = comprobarCarta(cartaJ1, ronda);
         if(mentiroso == null) cartaJ2 = seleccionDeCartaATirar(jugador2, ronda);
     }
-}
+}*/
 
 function mostrarCartasEnMesa(posiciones){
 
@@ -282,11 +284,12 @@ function mostrarCartasEnMesa(posiciones){
         if(cont == 9 && flag == true) {
             cont = -2;
             flag = false;
+            // variable con url de la imagen, o if doble para 
+            //mostrar cartas del rival al reves
         }
         cont+=2;
     })
 }
-
 
 function inicioJuego(){
     let jugador1 = new Jugador("Santiago", 3);
@@ -296,9 +299,8 @@ function inicioJuego(){
     jugador2.verCartas();
     mostrarCartasEnMesa(posicionesCartas);
 
-    let ronda =seleccionDeFigura(figuraDeCartas);
+    ronda =seleccionDeFigura(figuraDeCartas);
     console.log(ronda);
-
 }
 
 inicioJuego();
@@ -315,3 +317,19 @@ cartas.forEach(carta => {
         mazoEnMeza.setAttribute('data-id', carta.dataset.id);
     });    
 });  
+
+const btnMentira = document.getElementById("btn-mentira");
+
+btnMentira.addEventListener('click',  () =>{
+    btnMentira.src = "images/cartas/btn-2.png";
+
+    if(ronda == mazoEnMeza.getAttribute('alt') || mazoEnMeza.getAttribute('alt') == "Comodin" ){
+        alert("El jugador tiro un " + ronda)
+    } else{
+        alert("El jugador es un mentiroso!")
+    }
+})
+
+
+// Para respetar turnos no puedo tocar las cartas del rival
+// opc 1) ocultarlas, deberian tener una clase dif
