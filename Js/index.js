@@ -275,6 +275,7 @@ function mostrarCartasEnMesa(posiciones){
         imagenSeleccionada = imagenes[posiciones[cont]]
         img.src = imagenSeleccionada.src;
         img.alt = imagenSeleccionada.alt;
+        img.classList.add('carta-individual');
         carta.appendChild(img);
 
         if(cont == 9 && flag == true) {
