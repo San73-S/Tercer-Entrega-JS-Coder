@@ -275,7 +275,8 @@ function mostrarCartasEnMesa(posiciones){
         imagenSeleccionada = imagenes[posiciones[cont]]
         img.src = imagenSeleccionada.src;
         img.alt = imagenSeleccionada.alt;
-        img.classList.add('carta-individual');
+        img.setAttribute('data-id', posiciones[cont]);
+        img.classList.add("carta-individual")
         carta.appendChild(img);
 
         if(cont == 9 && flag == true) {
@@ -304,9 +305,13 @@ inicioJuego();
 
 
 const cartas = document.querySelectorAll(".carta-individual");
+const mazoEnMeza = document.getElementById("carta-mazo");
 
 cartas.forEach(carta => {
     carta.addEventListener('click', () => {
-        alert('Tiraste ' + carta.alt);
+        carta.style.display = "none";
+        mazoEnMeza.style.display = "block";
+        mazoEnMeza.alt = carta.alt;
+        mazoEnMeza.setAttribute('data-id', carta.dataset.id);
     });    
-});
+});  
