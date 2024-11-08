@@ -29,6 +29,29 @@ main .contenedor-cartas{
     align-items:  start;
 }
 
+.contenedor-cartas .informacion{
+    grid-column: 2; 
+    grid-row: 2 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+
+}
+
+.contenedor-cartas .informacion p{    
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    opacity: 0; 
+    transition: opacity 0.5s ease-in-out;
+}
+
+.contenedor-cartas .informacion .mensaje.visible{
+    opacity: 1;
+}
+
 .contenedor-cartas .cartas-mazo{
     grid-column: 3; 
     grid-row: 2 / 4;
@@ -82,10 +105,15 @@ main .contenedor-cartas{
 .carta img{    
     width: 100%; 
     margin-top: 3px; 
-    cursor: pointer;
-    transition: transform 0.4s ease;
+    /*cursor: pointer;*/    
 }
 
-.carta img:hover {
+.turno{
+    cursor: pointer;
+    outline: 3px #efb810 solid;
+    transition: transform 0.4s ease; 
+}
+
+.turno img:hover {
     transform: scale(1.1);
 }

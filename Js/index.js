@@ -134,10 +134,13 @@ const imagenes = [
 const figuraDeCartas = ["Numerica", "Sota", "Caballo", "Rey", "Comodin"];
 
 let ronda = "";
+let turno = 1;
+let msj = "";
 
 class Jugador{
 
-    constructor(nombre, vidas, baraja){
+    constructor(id, nombre, vidas, baraja){
+        this.id = id;
         this.nombre = nombre;
         this.vidas = vidas;
         this.baraja = baraja;
@@ -271,11 +274,12 @@ function mostrarCartasEnMesa(posiciones){
     let cont = 1;
     flag = true;
     let imagenSeleccionada;
+    const reversoDeCarta = "images/cartas/reverso.png";
 
     cartas.forEach(carta =>{
         const img = document.createElement('img');
-        imagenSeleccionada = imagenes[posiciones[cont]]
-        img.src = imagenSeleccionada.src;
+        imagenSeleccionada = imagenes[posiciones[cont]]  
+        img.src = cont % 2 == 0 ? imagenSeleccionada.src : reversoDeCarta;
         img.alt = imagenSeleccionada.alt;
         img.setAttribute('data-id', posiciones[cont]);
         img.classList.add("carta-individual")
@@ -284,39 +288,70 @@ function mostrarCartasEnMesa(posiciones){
         if(cont == 9 && flag == true) {
             cont = -2;
             flag = false;
-            // variable con url de la imagen, o if doble para 
-            //mostrar cartas del rival al reves
         }
         cont+=2;
     })
 }
 
+const mensaje = document.getElementById('mensaje');
+
+function mostrarMensaje(texto) {
+    mensaje.classList.add('visible');
+    mensaje.innerText = texto;
+    setTimeout(() => {
+    mensaje.classList.remove('visible');
+    }, 5000); 
+}
+
 function inicioJuego(){
-    let jugador1 = new Jugador("Santiago", 3);
-    let jugador2 = new Jugador("BOT", 3);
+    let jugador1 = new Jugador(1, "Santiago", 3);
+    let jugador2 = new Jugador(2, "BOT", 3);
     let posicionesCartas = repartirCartas(jugador1, jugador2, Maso);
     jugador1.verCartas();
     jugador2.verCartas();
     mostrarCartasEnMesa(posicionesCartas);
-
     ronda =seleccionDeFigura(figuraDeCartas);
     console.log(ronda);
+    msj = "En esta ronda se tira: " + ronda;
+    mostrarMensaje(msj);
 }
 
 inicioJuego();
 
 
+
 const cartas = document.querySelectorAll(".carta-individual");
+const cartasLineas = document.querySelectorAll(".cartas-lineas");
 const mazoEnMeza = document.getElementById("carta-mazo");
 
-cartas.forEach(carta => {
+cartas.forEach((carta, index )=> {
     carta.addEventListener('click', () => {
-        carta.style.display = "none";
-        mazoEnMeza.style.display = "block";
-        mazoEnMeza.alt = carta.alt;
-        mazoEnMeza.setAttribute('data-id', carta.dataset.id);
+        if(turno == 1 && index >4){
+            carta.style.display = "none";
+            mazoEnMeza.style.display = "block";
+            mazoEnMeza.alt = carta.alt;
+            mazoEnMeza.setAttribute('data-id', carta.dataset.id);
+            turno =2;
+        }
+
+        if(turno == 2 && index <4){
+            //llamar una funcion que tire automaricamente
+            carta.style.display = "none";
+            mazoEnMeza.style.display = "block";
+            mazoEnMeza.alt = carta.alt;
+            mazoEnMeza.setAttribute('data-id', carta.dataset.id);
+            turno =1;
+        }
+        
+        //alert("hiciste click en la carta" + index);        
     });    
 });  
+
+cartasLineas.forEach((linea, index)=>{
+    if(index>5){
+        linea.classList.add('turno');
+    } 
+})
 
 const btnMentira = document.getElementById("btn-mentira");
 
@@ -324,12 +359,20 @@ btnMentira.addEventListener('click',  () =>{
     btnMentira.src = "images/cartas/btn-2.png";
 
     if(ronda == mazoEnMeza.getAttribute('alt') || mazoEnMeza.getAttribute('alt') == "Comodin" ){
-        alert("El jugador tiro un " + ronda)
+        msj = "El jugador tiro correctamente " + ronda;
     } else{
-        alert("El jugador es un mentiroso!")
+        msj = "El jugador es un mentiroso!";
     }
+
+    mostrarMensaje(msj);
+
+    // inicioJuego();
+    // hay que recetear el mazo y demas variables
 })
 
-
-// Para respetar turnos no puedo tocar las cartas del rival
-// opc 1) ocultarlas, deberian tener una clase dif
+/* FALTA
+* Rival tira cartas automaticamente
+* Efecto para saber de quien es el turno
+* Mostrar vidas y nombres
+* Resetear mesa
+*/ 
