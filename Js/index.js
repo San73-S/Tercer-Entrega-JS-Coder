@@ -323,27 +323,44 @@ inicioJuego();
 const cartas = document.querySelectorAll(".carta-individual");
 const cartasLineas = document.querySelectorAll(".cartas-lineas");
 const mazoEnMeza = document.getElementById("carta-mazo");
+let posicionesCartasBot = [0, 1, 2, 3, 4, 5];
+
+
+function cartaBotAleatoria(){
+    let posAux =  Math.floor(Math.random() * posicionesCartasBot.length);
+    let numAux = posicionesCartasBot[posAux];
+    posicionesCartasBot.splice(posAux, 1);
+    return numAux;
+}
 
 cartas.forEach((carta, index )=> {
     carta.addEventListener('click', () => {
+        let flag = false;
         if(turno == 1 && index >4){
             carta.style.display = "none";
             mazoEnMeza.style.display = "block";
             mazoEnMeza.alt = carta.alt;
             mazoEnMeza.setAttribute('data-id', carta.dataset.id);
-            turno =2;
+            turno = 2;
+            flag = true;
         }
 
-        if(turno == 2 && index <4){
-            //llamar una funcion que tire automaricamente
+        if(turno == 2 && flag){
+            let numAux = cartaBotAleatoria();
+            if(numAux == 5){
+                btnMentira.click();
+            } // Falta contemplar cuando el otro jugador tiro todas sus cartas
+            cartas[numAux].click();
+            console.log(numAux);            
+        }
+
+        if(turno == 2 ){            
             carta.style.display = "none";
             mazoEnMeza.style.display = "block";
             mazoEnMeza.alt = carta.alt;
             mazoEnMeza.setAttribute('data-id', carta.dataset.id);
-            turno =1;
-        }
-        
-        //alert("hiciste click en la carta" + index);        
+            turno =  1;
+        }      
     });    
 });  
 
@@ -371,7 +388,7 @@ btnMentira.addEventListener('click',  () =>{
 })
 
 /* FALTA
-* Rival tira cartas automaticamente
+* Rival tira cartas automaticamente. LISTO
 * Efecto para saber de quien es el turno
 * Mostrar vidas y nombres
 * Resetear mesa
