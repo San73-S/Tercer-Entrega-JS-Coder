@@ -389,7 +389,7 @@ btnMentira.addEventListener('click',  () =>{
 
 /* FALTA
 * Rival tira cartas automaticamente. LISTO
-* Efecto para saber de quien es el turno
-* Mostrar vidas y nombres
-* Resetear mesa
+* Efecto para saber de quien es el turno.
+* Mostrar vidas y nombres.
+* Resetear mesa.
 */ 
